@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7a5100494ee84c2087fe2c0d1a8e301f" Name="Diagram1">
+        <EntityTypeShape EntityType="SportFeedsDBModel.Bookmakers" Width="1.5" PointX="6" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SportFeedsDBModel.Categories" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SportFeedsDBModel.Countries" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SportFeedsDBModel.Events" Width="1.5" PointX="5.25" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SportFeedsDBModel.FeedUrls" Width="1.5" PointX="7.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SportFeedsDBModel.Matches" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SportFeedsDBModel.OddTypes" Width="1.5" PointX="6" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SportFeedsDBModel.Players" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SportFeedsDBModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SportFeedsDBModel.Teams" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SportFeedsDBModel.TvStations" Width="1.5" PointX="5.25" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SportFeedsDBModel.Odds" Width="1.5" PointX="8.25" PointY="4.5" IsExpanded="true" />
+        <AssociationConnector Association="SportFeedsDBModel.FK_Odds_Bookmakers" ManuallyRouted="false" />
+        <AssociationConnector Association="SportFeedsDBModel.FK_Matches_Categories" ManuallyRouted="false" />
+        <AssociationConnector Association="SportFeedsDBModel.FK_Events_Matches" ManuallyRouted="false" />
+        <AssociationConnector Association="SportFeedsDBModel.FK_Events_Players" ManuallyRouted="false" />
+        <AssociationConnector Association="SportFeedsDBModel.FK_Events_Players1" ManuallyRouted="false" />
+        <AssociationConnector Association="SportFeedsDBModel.FK_Matches_Teams" ManuallyRouted="false" />
+        <AssociationConnector Association="SportFeedsDBModel.FK_Matches_Teams1" ManuallyRouted="false" />
+        <AssociationConnector Association="SportFeedsDBModel.FK_Odds_Matches" ManuallyRouted="false" />
+        <AssociationConnector Association="SportFeedsDBModel.FK_TvStations_Matches" ManuallyRouted="false" />
+        <AssociationConnector Association="SportFeedsDBModel.FK_Odds_OddTypes" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
