@@ -18,12 +18,15 @@ namespace AllOdds
         public string name { get; set; }
         public double value { get; set; }
         public Nullable<long> bookmaker_id { get; set; }
-        public Nullable<int> odd_type_id { get; set; }
+        public int? odd_type_id { get; set; }
         public Nullable<double> handicap { get; set; }
         public Nullable<double> total { get; set; }
         public Nullable<double> main { get; set; }
         public long match_id { get; set; }
-    
+
+        public string bookmaker_name { get; set; }
+        public string odd_type_name { get; set; }
+
         public virtual Bookmakers Bookmakers { get; set; }
         public virtual Matches Matches { get; set; }
         public virtual OddTypes OddTypes { get; set; }

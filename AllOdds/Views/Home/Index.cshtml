@@ -3,12 +3,31 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Real Time Odds</h2>
+@* Load css files *@
 
-<div style="width:100%; margin:0 auto;">
+<link href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/1.10.13/css/dataTables.jqueryui.min.css" rel="stylesheet" />
+<link href="~/Content/Home/index.css" rel="stylesheet" />
+
+@section scripts{
+    @* load script files *@
+    <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>    
+    <script src="/signalr/hubs"></script>
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.13/js/dataTables.jqueryui.min.js"></script>
+    <script src="~/Scripts/Home/index.js"></script>
+}
+
+<div id="main">
     @* Search Area *@
-    <div style="background-color:#adadad; padding:20px">
-        <h2>Search Panel</h2>
+    <div class="header-content">
+        
+        @*<h2><text style="font-weight:bold;">Real Time Odds</text> - Search Panel</h2>*@
+    
+        @if (ViewBag.SqlDep != null)
+        {
+            <h3>@ViewBag.SqlDep</h3>
+        }
 
         <table>
             <tbody>
@@ -27,223 +46,70 @@
                     </td>
                     <td>
                         <input type="button" value="Search" onclick="getMatches()" />
-                    </td>
-                    <td>
-                        <input type="button" value="Reload" onclick="reload()" />
-                    </td>
+                    </td>                    
                 </tr>
             </tbody>
         </table>
     </div>
 
     @* DataTable *@ 
+    
+    <div id="matchesContainer">
+        <table id="dtOdds" class="dtOdds" width="100%">
+            
+            <thead class="dtOdds-header">                
+                <tr>                    
+                    <th id="th_counter"></th>
+                    <th id="th_events">Info</th>                       
+                    <th id="th_match_id">Match ID</th>      
+                    <th id="th_status">Status</th>
+                    <th id="th_date_time">Date/Time</th>
+                    <th id="th_stadium">Stadium</th>
+                    <th id="th_category">Category</th>
+                    <th id="th_localteam">Local</th>
+                    <th id="th_localteam_goals">Goals</th>
+                    <th id="th_visitorteam">Visitor</th>
+                    <th id="th_visitorteam_goals">Goals</th>
+                </tr>
+            </thead>
+            <tbody class="dtOdds-body">
 
-    <table id="dtOdds">
-        <thead>
-            <tr>
-                <th></th>
-                <th><center>Match ID</center></th>      
-                <th><center>Status</center></th>
-                <th><center>Date/Time</center></th>
-                <th><center>Stadium</center></th>
-                <th><center>Category</center></th>
-                <th><center>Local</center></th>
-                <th><center>Goals</center></th>
-                <th><center>Visitor</center></th>
-                <th><center>Goals</center></th>
-            </tr>
-        </thead>        
-    </table>
+            </tbody>       
+        </table>
+    </div>
+    <div id="matches-info">
+        <div class="matches-info-header">
+            <span>Match ID => </span><span id="lbl-match-id">No match selected!!!</span>            
+            <button id="btnOdds" class="btnInfo" onclick="toggleMatchInfo('match-odds')">Odds</button>
+            <button id="btnEvents" class="btnInfo" onclick="toggleMatchInfo('match-events')">Events</button>
+        </div>
+
+        <div id="match-odds" class="match-info">
+            <div id="odd-type-selection">
+                 <span style="margin-left:10px;">Select an odd type => </span><select id="cboOddTypes" style="width:calc(100% - 160px);"></select>
+            </div>
+            <div id="tbl-odds" style="overflow:auto"></div>
+        </div>
+
+        <div id="match-events" class="match-info">
+            <table id="tbl-info-events" width="100%">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Type</th>
+                        <th>Team</th>
+                        <th>Minute</th>
+                        <th>Player Name</th>
+                        <th>Assist Name</th>
+                        <th>Result</th>
+                    </tr>                    
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>        
+    </div>
 </div>
 
-
-@* Load css files *@
-<link href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" />
-<link href="https://cdn.datatables.net/1.10.13/css/dataTables.jqueryui.min.css" rel="stylesheet" />
-
-<style type="text/css">
-    td.details-control {
-    background: url('../../images/open_detail.png') no-repeat center center;
-    cursor: pointer;
-    }
-    tr.details td.details-control {
-        background: url('../../images/close_detail.png') no-repeat center center;
-    }
-</style>
-
-@* load script files *@
-@section Scripts{
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
-    <script src="/signalr/hubs"></script>
-    @*<script src="//code.jquery.com/jquery-1.12.4.js"></script>*@
-    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.13/js/dataTables.jqueryui.min.js"></script>
-    
-    
-    <script type="text/javascript">        
-        $(document).ready(function () {
-            $.ajax({
-                type: "POST",
-                url: "/Home/getCategories",
-                data: "{}",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (msg) {
-                    var option = $(document.createElement('option'));
-                    option.text("All Categories");
-                    option.val(0);
-                    $("#cboCategories").append(option);
-
-                    $(msg).each(function () {
-                        var option = $(document.createElement('option'));
-                        option.text(this.category_name);
-                        option.val(this.category_id);
-                        $("#cboCategories").append(option);
-                    });
-                },
-                error: function (msg) {
-                    console.log("error al llenar la lista de categorias", msg);
-                }
-            });
-
-            $('#dtOdds').DataTable();
-
-            $('#dtOdds tbody').on('click', 'tr', function () {
-                if ($(this).hasClass('selected')) {
-                    $(this).removeClass('selected');
-                }
-                else {
-                    $('#dtOdds').DataTable().$('tr.selected').removeClass('selected');
-                    $(this).addClass('selected');
-                }
-            });
-
-            var child_rows = [];
-
-            $('#dtOdds tbody').on('click', 'td.details-control', function () {
-                var tr = $(this).closest('tr');
-                var row = $('#dtOdds').DataTable().row(tr);
-                
-                if (row.child.isShown()) {
-                    // This row is already open - close it
-                    row.child.hide();
-                    tr.removeClass('shown');
-                }
-                else {
-                    // Open this row
-                    row.child(format(row.data())).show();
-                    tr.addClass('shown');
-                }
-            });
-            
-            initDtp();
-
-            var notificationHub = $.connection.notificationHub;
-            
-            $.connection.hub.start().done(function () {
-                console.log("odds hub started!!!");
-            });
-
-            notificationHub.client.notifyUpdate = function () {
-                reload();
-            }
-        });
-
-        function format(d) {
-            console.log("detail var_rowData", d.events);
-            
-            var child = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
-            child = child + '<thead style="background-color:#FACC2E;"><tr>' +
-            '<td>Type</td><td>Team</td><td>Minute</td><td>Player Name</td><td>Assist Name</td><td>Result</td>' +
-            '</tr></thead>';
-  
-            child = child + '<tbody style="background-color:#F3E2A9;">'
-
-            $(d.events).each(function () {
-                var row = '<tr>';
-
-                var col1 = '<td>' + this.type + '</td>'
-                var col2 = '<td>' + this.team + '</td>'
-                var col3 = '<td>' + this.minute + '</td>'
-                var col4 = '<td>' + this.player_name + '</td>'
-                var col5 = '<td>' + this.assist_name + '</td>'
-                var col6 = '<td>' + this.result + '</td>'
-                                
-                row = row + col1 + col2 + col3 + col4 + col5 + col6 + '</tr>';
-
-                child = child + row;
-            });
-
-            child = child + '</tbody></table>';
-
-            return child;
-        }
-        
-        function initDtp() {
-            var now = new Date();
-            var day = ("0" + now.getDate()).slice(-2);
-            var month = ("0" + (now.getMonth() + 1)).slice(-2);            
-            var today = now.getFullYear() + "-" + (month) + "-" + (day);
-            $('#dtpFrom').val(today);
-            $('#dtpTo').val(today);
-        }       
-
-        function reload() {
-            if ($('#dtOdds').DataTable().data().any()) {
-                $('#dtOdds').DataTable().ajax.reload();
-            }
-        }
-
-        function getMatches() {
-            if ($('#dtpFrom').val() == '') {
-                alert("You should select initial date");
-                return;
-            }
-
-            if ($('#dtpTo').val() == '') {
-                alert("You should select final date");
-                return;
-            }
-
-            $('#dtOdds').DataTable(
-                {
-                    destroy: true,
-                    ordering: false,
-                    info: false,
-                    searching: false,
-                    select: 'single',
-                    ajax: {                        
-                        "url": "/home/getMatches",
-                        "type": "POST",                       
-                        "datatype": "json",
-                        "data": {
-                            category_id: $('#cboCategories').val(),
-                            dateFrom: $('#dtpFrom').val(),
-                            dateTo: $('#dtpTo').val()
-                        }
-                    },
-                    columns: [
-                        {
-                            "class": "details-control",
-                            "orderable": false,
-                            "data": null,
-                            "defaultContent": ""
-                        },
-                        { "data": "match_id", "name": "match_id", "autowidth": true },
-                        { "data": "status", "name": "status", "autowidth": true },
-                        { "data": "datetime", "name": "datetime", "autowidth": true },
-                        { "data": "stadium", "name": "stadium", "autowidth": true },
-                        { "data": "category_name", "name": "category_name", "autowidth": true },
-                        { "data": "localteam_name", "name": "localteam_name", "autowidth": true },
-                        { "data": "localteam_goals", "name": "localteam_goals", "autowidth": true },
-                        { "data": "visitorteam_name", "name": "visitorteam_name", "autowidth": true },
-                        { "data": "visitorteam_goals", "name": "visitorteam_goals", "autowidth": true }
-                    ]
-                }
-           );            
-        
-        }
-    </script>
-}
 

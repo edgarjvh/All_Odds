@@ -1,0 +1,172 @@
+﻿td.details-events {
+    background: url('../../images/open_detail.png') no-repeat center center;
+    cursor: pointer;
+}
+
+tr.shown td.details-events {
+    background: url('../../images/close_detail.png') no-repeat center center;
+}
+
+#dtOdds{
+    cursor:initial;
+}
+
+#dtOdds thead tr th{
+    text-align:center;    
+}
+
+#dtOdds tbody tr:nth-child(even){
+    background-color:#dedede;    
+}
+
+#dtOdds tbody tr:nth-child(odd){
+    background-color:#ffffff;
+    
+}
+
+#dtOdds tbody tr:hover{
+    background-color:#b1b1b1;    
+}
+
+#dtOdds tbody tr{
+    text-align:center;
+    font-size:small;
+    font-style:italic;
+    font-weight:bold;
+}
+
+#dtOdds tbody tr .child-th{
+    background-color:#ffd800;    
+    font-weight:bold;
+}
+
+#dtOdds tbody tr .child-row{    
+    background-color:#ffed8b;
+}
+
+#dtOdds tbody tr .child{    
+    border:solid 1px;
+    margin:0 auto;
+    width:100%;
+}
+
+.header-content{
+    background-color:#00bcc2;
+    padding:10px;
+    border-radius:10px;
+    margin-bottom:5px;
+}
+
+tr.selection{
+    background-color:#0059ba;
+    color:#ffffff;
+}
+
+body{    
+    margin-top:45px;
+}
+#main{
+    width:100%;
+    height:100%;    
+    margin:0 auto;
+    position:relative;
+    padding:10px;
+}
+
+#matchesContainer{
+    width:calc(100% - 20px);
+    height:calc(100% - 370px);
+    position:fixed;    
+    overflow-x:hidden;
+    overflow-y:auto;
+}
+    
+#matches-info{
+    background-color:aqua;
+    width:calc(100% - 20px);
+    height:250px;        
+    position:fixed;
+    bottom:0;
+    margin-bottom:10px;
+    border-radius:10px;
+}
+
+.dtOdds .dtOdds-header{
+    background-color:#000000;
+    color:#ffffff;        
+}
+
+
+.dtOdds thead tr th:first-child{
+    width:30px;
+    border-radius:10px 0 0 0;
+}
+
+.dtOdds thead tr th:last-child{
+    border-radius:0 10px 0 0;
+}
+
+.dtOdds tbody tr:last-child td:first-child{        
+    border-radius:0 0 0 10px;
+}
+
+.dtOdds tbody tr:last-child td:last-child{        
+    border-radius:0 0 10px 0;
+}
+
+.dtOdds thead th:first-child + th + th, .dtOdds tbody td:first-child + td + td {
+  display:none;
+}
+
+.matches-info-header{
+    width:100%;
+    height:25px;
+    background-color:#000000;
+    color:#ffffff;
+    border-radius:10px 10px 0 0;
+    padding-left: 10px;
+}
+
+.btnInfo{
+    width:100px;
+    height:25px;
+    color:#000000;    
+    float:right;
+    margin-right:15px;
+    font-weight:bold;
+    font-style:italic;
+}
+
+#match-events{
+    background-color:#71fcc9;
+    width:100%;
+    height:225px;
+    border-radius:0 0 10px 10px;
+    display:block;
+    padding-left:5px;
+    padding-right:5px;
+}
+
+#match-odds{
+    background-color:#48d2ff;
+    width:100%;
+    height:225px;
+    border-radius:0 0 10px 10px;
+    display:none;
+}
+
+#tbl-info-events thead tr th:first-child{
+    width:30px;
+}
+
+#tbl-info-events thead tr th, #tbl-info-events tbody tr{
+    text-align:center;
+}
+
+#tbl-info-events thead{
+    background-color:rgba(255, 255, 255, 0.45)
+}
+
+#match-odds{    
+    overflow:auto;
+}

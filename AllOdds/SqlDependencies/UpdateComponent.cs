@@ -1,4 +1,5 @@
-﻿using AllOdds.Hubs;
+﻿using AllOdds.Controllers;
+using AllOdds.hubs;
 using Microsoft.AspNet.SignalR;
 using System;
 using System.Collections.Generic;
@@ -178,9 +179,7 @@ namespace AllOdds.SqlDependencies
                 }
             }
         }
-
         
-
         #endregion
 
         #region OnChange_Events
@@ -189,7 +188,7 @@ namespace AllOdds.SqlDependencies
             if (e.Type == SqlNotificationType.Change)
             {
                 SqlDependency dep_Matches = sender as SqlDependency;
-                dep_Matches.OnChange -= Dep_Matches_OnChange;
+                dep_Matches.OnChange -= Dep_Matches_OnChange;                         
                 notify();
                 MatchesUpdated();
             }
@@ -253,9 +252,8 @@ namespace AllOdds.SqlDependencies
 
         private void notify()
         {
-            var notificationHub = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
-            notificationHub.Clients.All.notifyUpdate();
-
+            var context = GlobalHost.ConnectionManager.GetHubContext<OddsHub>();
+            context.Clients.All.notifyUpdate();
         }
     }
 }

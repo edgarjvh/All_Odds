@@ -15,14 +15,12 @@ namespace AllOdds
     {
         string strConn = ConfigurationManager.ConnectionStrings["defaultConn"].ConnectionString;
         protected void Application_Start()
-        {
-
+        {            
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             SqlDependency.Start(strConn);
-
         }
 
         protected void Session_Start(object sender, EventArgs e)
@@ -36,7 +34,7 @@ namespace AllOdds
             uc.TeamsUpdated();
         }
 
-        protected void Application_Stop()
+        protected void Application_End()
         {
             SqlDependency.Stop(strConn);
         }

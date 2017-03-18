@@ -20,15 +20,15 @@ namespace AllOdds
             this.Events = new HashSet<Events>();
             this.Odds = new HashSet<Odds>();
             this.TvStations = new HashSet<TvStations>();
-            this.events = new List<Events>();
+            this.events = new List<Events>();            
         }
-
+                
         public List<Events> events { get; set; }
         public long match_id { get; set; }
         public string status { get; set; }
         public Nullable<System.DateTime> date_time { get; set; }
         public string stadium { get; set; }
-        public Nullable<long> static_id { get; set; }
+        public long? static_id { get; set; }
         public Nullable<long> fix_id { get; set; }
         public Nullable<long> category_id { get; set; }
         public Nullable<long> localteam_id { get; set; }
